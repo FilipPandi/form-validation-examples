@@ -1,9 +1,10 @@
 import InputBlueprint from "./InputBlueprint";
 import React, {useState} from "react";
 import {Button} from "primereact/button";
+import {Link} from "react-router-dom";
 
 //Primitive validation
-export default function FormExample() {
+export default function FormBlueprintExample() {
 
     const [errors, setErrors] = useState({
         address: "",
@@ -55,6 +56,7 @@ export default function FormExample() {
 
     return (
         <React.Fragment>
+
             <form onSubmit={submitForm}
                   style={{
                       display: 'flex',
@@ -63,6 +65,8 @@ export default function FormExample() {
                       height: '100vh',
                       columnGap: '1%'
                   }}>
+                <Link className={"link"} to="/"><Button severity="secondary" icon="pi pi-angle-double-left" label={"Back"}/></Link>
+
                 <div>
                     <InputBlueprint id={"firstName"} label={"First name"}></InputBlueprint>
                     <span style={{color: "red", position: "absolute", padding: "10px"}}>{errors.firstName}</span>

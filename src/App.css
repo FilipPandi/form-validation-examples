@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+.link {
+  text-decoration: none;
+}
+
+.container-grid {
+  display: grid;
+  grid-template-columns: 15rem 15rem 15rem;
+  grid-gap: 2rem;
+}
+
+.separator10 {
+  padding: 10px;
+}
+
+.separator20 {
+  padding: 20px;
+}

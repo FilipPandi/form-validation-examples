@@ -10,7 +10,7 @@ export class Service {
        return await axios.post(this.url + this.uri + "/save", textData);
     }
 
-    static async getAllText(): Promise<TextModel> {
+    static async getAllText() {
         return await axios.get(this.url + this.uri + "/getAllText");
     }
 }

@@ -42,9 +42,11 @@
 }
 
 .container-grid {
+  height: 60px;
   display: grid;
   grid-template-columns: 15rem 15rem 15rem;
-  grid-gap: 2rem;
+  grid-gap: 16rem;
+  margin-top: 16px;
 }
 
 .separator10 {

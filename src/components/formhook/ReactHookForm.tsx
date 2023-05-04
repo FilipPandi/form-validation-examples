@@ -11,6 +11,9 @@ import {TextType} from "../../api/data/TextType";
 import {Column} from "primereact/column";
 import {DataTable} from "primereact/datatable";
 import {Panel} from "primereact/panel";
+import {Divider} from 'primereact/divider';
+import {Fieldset} from "primereact/fieldset";
+
 
 export default function ReactHookForm() {
     console.log("CALLED");
@@ -83,13 +86,17 @@ export default function ReactHookForm() {
             </div>
 
             <div className={'separator20'}>
-                <Panel header={"Form"}>
+                <Panel header={"Text Form"}>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="container-grid">
                             <div className="field">
                             <span className="p-float-label">
                                 <Controller name="text" control={control}
-                                            rules={{required: 'Text is required.', maxLength: 10}}
+                                            rules={{
+                                                required: 'Field: `Text` is required.',
+                                                maxLength: {value: 10, message: 'Maximum length exceeded.'},
+                                                minLength: {value: 2, message: 'Minimum length required.'}
+                                            }}
                                             render={({field, fieldState}) => (
                                                 <InputText id={field.name} {...field} value={field.value}
                                                            className={classNames({'p-invalid': fieldState.invalid})}/>
@@ -102,7 +109,7 @@ export default function ReactHookForm() {
                             <div className="field">
                             <span className="p-float-label">
                                 <Controller name="textType" control={control}
-                                            rules={{required: 'Text type is required.'}}
+                                            rules={{required: 'Field: `Text Type` is required.'}}
                                             render={({field, fieldState}) => (
                                                 <Dropdown style={{width: '100%'}} id={field.name} {...field}
                                                           value={field.value} options={textTypes} optionLabel="name"
@@ -115,21 +122,24 @@ export default function ReactHookForm() {
                             </div>
                         </div>
 
-                        <div className={'separator10'}></div>
+                        <Divider/>
 
-                        <Button type="submit" label="Submit" className="mt-2"/>
+                        <Button type="submit" severity={"warning"} label="Save" className="mt-2"/>
                     </form>
                 </Panel>
             </div>
 
-            <div className={'separator20'}>
-                <DataTable value={allTexts} paginator rows={3} rowsPerPageOptions={[5, 10, 25, 50]}
-                           tableStyle={{minWidth: '50rem'}}>
-                    <Column field="id" header="ID" style={{width: '33%'}}></Column>
-                    <Column field="text" header="Text" style={{width: '33%'}}></Column>
-                    <Column field="textType" header="Text Type" style={{width: '33%'}}></Column>
-                </DataTable>
+            <div className={"separator20"}>
+                <Fieldset legend="Database data">
+                    <DataTable value={allTexts} paginator rows={3} rowsPerPageOptions={[5, 10, 25, 50]}
+                               tableStyle={{minWidth: '50rem'}}>
+                        <Column field="id" header="ID" style={{width: '33%'}}></Column>
+                        <Column field="text" header="Text" style={{width: '33%'}}></Column>
+                        <Column field="textType" header="Text Type" style={{width: '33%'}}></Column>
+                    </DataTable>
+                </Fieldset>
             </div>
+
         </React.Fragment>
     );
 }

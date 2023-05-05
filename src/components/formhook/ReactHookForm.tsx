@@ -14,6 +14,7 @@ import {Panel} from "primereact/panel";
 import {Divider} from 'primereact/divider';
 import {Fieldset} from "primereact/fieldset";
 import {Toast} from "primereact/toast";
+import {Nullable} from "primereact/ts-helpers";
 
 const getFormErrorMessage = (name: string, errors: Partial<FieldErrorsImpl<DeepRequired<FieldValues>>>) => {
     // ts-ignore - 'cas of 'defaultValue' on useForm - it wants gibberish object as errors field
@@ -22,27 +23,30 @@ const getFormErrorMessage = (name: string, errors: Partial<FieldErrorsImpl<DeepR
 };
 
 function FormInput(control: Control<any>,
+                   inputLabel: string, inputName: string, maxLength: number, minLength: number,
                    errors: Partial<FieldErrorsImpl<DeepRequired<FieldValues>>>) {
     return <div className="field">
                             <span className="p-float-label">
-                                <Controller name="text" control={control}
+                                <Controller name={inputName} control={control}
                                             rules={{
-                                                required: 'Field: `Text` is required.',
-                                                maxLength: {value: 10, message: 'Maximum length exceeded.'},
-                                                minLength: {value: 2, message: 'Minimum length required.'}
+                                                required: 'Field: `' + inputLabel + '` is required.',
+                                                maxLength: {value: maxLength, message: 'Maximum length exceeded.'},
+                                                minLength: {value: minLength, message: 'Minimum length required.'}
                                             }}
                                             render={({field, fieldState}) => (
                                                 <InputText id={field.name} {...field} value={field.value}
                                                            className={classNames({'p-invalid': fieldState.invalid})}/>
                                             )}/>
-                                <label htmlFor="text" className={classNames({'p-error': errors.text})}>Text*</label>
+                                <label htmlFor={inputName}
+                                       className={classNames({'p-error': errors[inputName]})}>{inputLabel}</label>
                             </span>
-        {getFormErrorMessage('text', errors)}
+        {getFormErrorMessage(inputName, errors)}
     </div>;
 }
 
 
 function DropDownInput(control: Control<any>,
+                       inputLabel: string, inputName: string,
                        errors: Partial<FieldErrorsImpl<DeepRequired<FieldValues>>>) {
 
     const textTypes: TextType[] = [
@@ -54,16 +58,16 @@ function DropDownInput(control: Control<any>,
     return <div className="field">
                             <span className="p-float-label">
                                 <Controller name="textType" control={control}
-                                            rules={{required: 'Field: `Text Type` is required.'}}
+                                            rules={{required: 'Field: `' + inputLabel + '` is required.'}}
                                             render={({field, fieldState}) => (
                                                 <Dropdown style={{width: '100%'}} id={field.name} {...field}
                                                           value={field.value} options={textTypes} optionLabel="name"
                                                           className={classNames({'p-invalid': fieldState.invalid})}/>
                                             )}/>
                                 <label htmlFor="textType"
-                                       className={classNames({'p-error': errors.textType})}>Text Type*</label>
+                                       className={classNames({'p-error': errors[inputName]})}>{inputLabel}</label>
                             </span>
-        {getFormErrorMessage('textType', errors)}
+        {getFormErrorMessage(inputName, errors)}
     </div>;
 }
 
@@ -132,8 +136,8 @@ export default function ReactHookForm() {
                 <Panel header={"Text Form"}>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="container-grid">
-                            {FormInput(control, errors)}
-                            {DropDownInput(control, errors)}
+                            {FormInput(control, 'Text*', 'text', 10, 2, errors)}
+                            {DropDownInput(control, 'Text Type*', 'Text Type*', errors)}
                         </div>
 
                         <Divider/>

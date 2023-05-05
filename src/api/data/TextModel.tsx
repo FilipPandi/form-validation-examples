@@ -1,9 +1,7 @@
 import {TextType} from "./TextType";
 import {Nullable} from "primereact/ts-helpers";
 
-
 export class TextModel {
-
      id:  Nullable<number>;
      text: string;
      textType: TextType;

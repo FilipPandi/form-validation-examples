@@ -1,16 +1,13 @@
 import {TextModel} from "./data/TextModel";
 import axios from "axios";
 
-export class Service {
+const url: string = "http://localhost:8081";
+const uri: string = "/text";
 
-    private static url: string = "http://localhost:8081";
-    private static uri: string = "/text";
+export async function save(textData: TextModel) {
+    return await axios.post(url + uri + "/save", textData);
+}
 
-    static async save(textData: TextModel) {
-       return await axios.post(this.url + this.uri + "/save", textData);
-    }
-
-    static async getAllText() {
-        return await axios.get(this.url + this.uri + "/getAllText");
-    }
+export async function getAllText() {
+    return await axios.get(url + uri + "/getAllText");
 }
